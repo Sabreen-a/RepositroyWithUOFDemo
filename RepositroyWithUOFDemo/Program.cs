@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using RepositoryWithUOFDemo.Infrastructure.DBContext;
 using RepositoryWithUOFDemo.Infrastructure.Repositories;
+using RepositoryWithUOFDemo.Infrastructure.UOW;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +17,8 @@ builder.Services.AddDbContext<RepositoryWithUofDemoDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection"),
         b => b.MigrationsAssembly(typeof(RepositoryWithUofDemoDbContext).Assembly.FullName));
 });
-builder.Services.AddTransient(typeof(IGenericRepository<>),typeof(GenericRepository<>));
+//builder.Services.AddTransient(typeof(IGenericRepository<>),typeof(GenericRepository<>));
+builder.Services.AddTransient(typeof(IUnitOfWork),typeof(UnitOfWork));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
